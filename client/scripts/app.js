@@ -14,17 +14,17 @@ var refresh = function() {
     opacity: 1
   });
   $.ajax({
-    url: 'https://api.parse.com/1/classes/messages',
-    type: 'GET',  
+    url: 'http://127.0.0.1:3000',
+    type: 'GET',
     data: {
       order: '-createdAt',
       // where: '{"roomname":""}'
-    },  
+    },
     success: function (data) {
       chatters = data;
     },
     error: function (data) { console.error('could not retrieve messages', data); }
-  });		
+  });
 };
 
 var erase = function() {
@@ -65,7 +65,7 @@ var writeChats = function() {
 
 var writing = function(event) {
   if (event.keyCode !== 13 || txt === '') {
-    return; 
+    return;
   }
 
   var txt = $('.message').val();
@@ -77,12 +77,12 @@ var writing = function(event) {
   message.username = myName;
 
   $.ajax({
-    url: 'https://api.parse.com/1/classes/messages',
+    url: 'http://127.0.0.1:3000',
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
-      console.log('chatterbox: Message sent');
+      console.log('chatterbox: Message sent', data);
     },
     error: function (data) {
       console.error('chatterbox: Failed to send message', data);
@@ -104,10 +104,10 @@ $(document).ready(() => {
   $('.createroom').on('click', writing);
 });
 
-$(document).ajaxComplete( () => { 
-  erase(); 
-  printLines(); 
+$(document).ajaxComplete( () => {
+  erase();
+  printLines();
   $('.loading').css({
-    opacity: 0	
+    opacity: 0
   });
 });
